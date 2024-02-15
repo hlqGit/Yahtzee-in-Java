@@ -1,18 +1,10 @@
-## Getting Started
-
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+# Yahtzee!
+Made in java! This is my first program I have made with a graphical interface, so it is probably pretty poorly coded and can be largely optimized.
+## Project is not completed!
+Right now I only have the core dice functionality, being able to roll and hold any dice. I have plans to add more features in the next few days, and once it is complete I will publish the first release of the program.
+## To Do
+- Add scorecard functionality
+- Create score calculations for different combonations of dice
+- Add in player turns
+- Limit player to 3 rolls per turn
+- Add restarting functionality
