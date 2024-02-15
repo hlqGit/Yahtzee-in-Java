@@ -1,4 +1,7 @@
+import java.util.Random;
+
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -97,7 +100,52 @@ public class Controller {
     private Label hold3;
     @FXML
     private Label hold4;
+
+    @FXML
+    private Label aces;
+    @FXML
+    private Label twos;
+    @FXML
+    private Label threes;
+    @FXML
+    private Label fours;
+    @FXML
+    private Label fives;
+    @FXML
+    private Label sixes;
+    @FXML
+    private Label totalScoreUpper;
+    @FXML
+    private Label bonus;
+    @FXML
+    private Label threeKind;
+    @FXML
+    private Label fourKind;
+    @FXML
+    private Label fullHouse;
+    @FXML
+    private Label smStraight;
+    @FXML
+    private Label lgStraight;
+    @FXML
+    private Label yahtzee;
+    @FXML
+    private Label chance;
+    @FXML
+    private Label yahtzeeBonus;
+    @FXML
+    private Label totalScoreLower;
+    @FXML
+    private Label grandTotal;
+
+    @FXML
+    private Button rollDiceButton;
     
+    private int dice0Value;
+    private int dice1Value;
+    private int dice2Value;
+    private int dice3Value;
+    private int dice4Value;
     
     private boolean is0Holding;
     private boolean is1Holding;
@@ -105,11 +153,21 @@ public class Controller {
     private boolean is3Holding;
     private boolean is4Holding;
 
+    private boolean gameStarted;
+    private boolean canRollDice;
+
+    private static int turnsRemaining = 13;
+    private int rollCount;
+
     final Color holdRed = new Color(1.0, 0.0, 0.0, 0.4962);
     final Color transparent = new Color(1.0, 0.0, 0.0, 0.0);
+    final Color black = new Color(0.0, 0.0, 0.0, 1.0);
+
+    Random random = new Random(2039426);
 
     public void holdDice0(){
-        if(!is0Holding){
+        if(!gameStarted) { return; }
+        if(!is0Holding ){
             hold0.setTextFill(holdRed);
             is0Holding = true;
         } else {
@@ -118,6 +176,7 @@ public class Controller {
         }
     }
     public void holdDice1(){
+        if(!gameStarted) { return; }
         if(!is1Holding){
             hold1.setTextFill(holdRed);
             is1Holding = true;
@@ -127,6 +186,7 @@ public class Controller {
         }
     }
     public void holdDice2(){
+        if(!gameStarted) { return; }
         if(!is2Holding){
             hold2.setTextFill(holdRed);
             is2Holding = true;
@@ -136,6 +196,7 @@ public class Controller {
         }
     }
     public void holdDice3(){
+        if(!gameStarted) { return; }
         if(!is3Holding){
             hold3.setTextFill(holdRed);
             is3Holding = true;
@@ -145,6 +206,7 @@ public class Controller {
         }
     }
     public void holdDice4(){
+        if(!gameStarted) { return; }
         if(!is4Holding){
             hold4.setTextFill(holdRed);
             is4Holding = true;
@@ -156,16 +218,37 @@ public class Controller {
     }
 
     public void rollDice(){
-        if ( !is0Holding ) { rollDice0(); }
-        if ( !is1Holding ) { rollDice1(); }
-        if ( !is2Holding ) { rollDice2(); }
-        if ( !is3Holding ) { rollDice3(); }
-        if ( !is4Holding ) { rollDice4(); }
+        gameStarted = true;
+        canRollDice = true;
+        switch(rollCount){
+            case 0 -> {
+                rollCount++;
+                rollDiceButton.setText("Roll!\n2 Rolls left");
+            }
+            case 1 -> {
+                rollCount++;
+                rollDiceButton.setText("Roll!\n1 Roll left");
+            }
+            case 2 -> {
+                canRollDice = false;
+                rollDiceButton.setText("Cannot Roll:\nFill in the scorecard");
+            }
+        }
+        if ( !is0Holding && canRollDice) { rollDice0(); }
+        if ( !is1Holding && canRollDice) { rollDice1(); }
+        if ( !is2Holding && canRollDice) { rollDice2(); }
+        if ( !is3Holding && canRollDice) { rollDice3(); }
+        if ( !is4Holding && canRollDice) { rollDice4(); }
+
+        fillScoreCardValues();
+    }
+
+    public static void fillScoreCardValues(){
+        
     }
     
     public void rollDice0(){
-        int newNum = (int)(Math.random()*6 + 1);
-        Color black = new Color(0.0, 0.0, 0.0, 1.0);
+        int newNum = (random.nextInt(6) + 1);
         System.out.println(newNum);
         switch(newNum){
             case 1 -> {
@@ -225,8 +308,7 @@ public class Controller {
         }
     }
     public void rollDice1(){
-        int newNum = (int)(Math.random()*6 + 1);
-        Color black = new Color(0.0, 0.0, 0.0, 1.0);
+        int newNum = (random.nextInt(6)+1);
         System.out.println(newNum);
         switch(newNum){
             case 1 -> {
@@ -286,8 +368,7 @@ public class Controller {
         }
     }
     public void rollDice2(){
-        int newNum = (int)(Math.random()*6 + 1);
-        Color black = new Color(0.0, 0.0, 0.0, 1.0);
+        int newNum = (random.nextInt(6)+1);
         System.out.println(newNum);
         switch(newNum){
             case 1 -> {
@@ -347,8 +428,7 @@ public class Controller {
         }
     }
     public void rollDice3(){
-        int newNum = (int)(Math.random()*6 + 1);
-        Color black = new Color(0.0, 0.0, 0.0, 1.0);
+        int newNum = (random.nextInt(6)+1);
         System.out.println(newNum);
         switch(newNum){
             case 1 -> {
@@ -408,8 +488,7 @@ public class Controller {
         }
     }
     public void rollDice4(){
-        int newNum = (int)(Math.random()*6 + 1);
-        Color black = new Color(0.0, 0.0, 0.0, 1.0);
+        int newNum = (random.nextInt(6)+1);
         System.out.println(newNum);
         switch(newNum){
             case 1 -> {
