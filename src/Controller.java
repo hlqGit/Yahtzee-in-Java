@@ -1,10 +1,15 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class Controller {
 
@@ -140,12 +145,19 @@ public class Controller {
 
     @FXML
     private Button rollDiceButton;
+
+    private boolean acesScored;
+    private boolean twosScored;
+    private boolean threesScored;
+    private boolean foursScored;
+    private boolean fivesScored;
+    private boolean sixesScored;
     
-    private int dice0Value;
-    private int dice1Value;
-    private int dice2Value;
-    private int dice3Value;
-    private int dice4Value;
+    private static int dice0Value;
+    private static int dice1Value;
+    private static int dice2Value;
+    private static int dice3Value;
+    private static int dice4Value;
     
     private boolean is0Holding;
     private boolean is1Holding;
@@ -153,8 +165,9 @@ public class Controller {
     private boolean is3Holding;
     private boolean is4Holding;
 
-    private boolean gameStarted;
-    private boolean canRollDice;
+    private static boolean turnStarted;
+    private static boolean canRollDice = true;
+    private static boolean canScore = true;
 
     private static int turnsRemaining = 13;
     private int rollCount;
@@ -163,10 +176,10 @@ public class Controller {
     final Color transparent = new Color(1.0, 0.0, 0.0, 0.0);
     final Color black = new Color(0.0, 0.0, 0.0, 1.0);
 
-    Random random = new Random(2039426);
+    Random random = new Random();
 
     public void holdDice0(){
-        if(!gameStarted) { return; }
+        if(!turnStarted) { return; }
         if(!is0Holding ){
             hold0.setTextFill(holdRed);
             is0Holding = true;
@@ -176,7 +189,7 @@ public class Controller {
         }
     }
     public void holdDice1(){
-        if(!gameStarted) { return; }
+        if(!turnStarted) { return; }
         if(!is1Holding){
             hold1.setTextFill(holdRed);
             is1Holding = true;
@@ -186,7 +199,7 @@ public class Controller {
         }
     }
     public void holdDice2(){
-        if(!gameStarted) { return; }
+        if(!turnStarted) { return; }
         if(!is2Holding){
             hold2.setTextFill(holdRed);
             is2Holding = true;
@@ -196,7 +209,7 @@ public class Controller {
         }
     }
     public void holdDice3(){
-        if(!gameStarted) { return; }
+        if(!turnStarted) { return; }
         if(!is3Holding){
             hold3.setTextFill(holdRed);
             is3Holding = true;
@@ -206,7 +219,7 @@ public class Controller {
         }
     }
     public void holdDice4(){
-        if(!gameStarted) { return; }
+        if(!turnStarted) { return; }
         if(!is4Holding){
             hold4.setTextFill(holdRed);
             is4Holding = true;
@@ -217,16 +230,34 @@ public class Controller {
         
     }
 
-    public void rollDice(){
-        gameStarted = true;
+    public void nextTurn(){
+        rollDiceButton.setText("Roll!\n3 Rolls left");
         canRollDice = true;
+        rollCount = 0;
+        if(is0Holding){ holdDice0(); }
+        if(is1Holding){ holdDice1(); }
+        if(is2Holding){ holdDice2(); }
+        if(is3Holding){ holdDice3(); }
+        if(is4Holding){ holdDice4(); }
+        turnStarted = false;
+        calcUpperScore();
+    }
+
+    public void rollDice(){
+        turnStarted = true;
+        canScore = true;
+        if (!is0Holding && canRollDice) { rollDice0(); }
+        if (!is1Holding && canRollDice) { rollDice1(); }
+        if (!is2Holding && canRollDice) { rollDice2(); }
+        if (!is3Holding && canRollDice) { rollDice3(); }
+        if (!is4Holding && canRollDice) { rollDice4(); }
         switch(rollCount){
             case 0 -> {
-                rollCount++;
+                ++rollCount;
                 rollDiceButton.setText("Roll!\n2 Rolls left");
             }
             case 1 -> {
-                rollCount++;
+                ++rollCount;
                 rollDiceButton.setText("Roll!\n1 Roll left");
             }
             case 2 -> {
@@ -234,23 +265,185 @@ public class Controller {
                 rollDiceButton.setText("Cannot Roll:\nFill in the scorecard");
             }
         }
-        if ( !is0Holding && canRollDice) { rollDice0(); }
-        if ( !is1Holding && canRollDice) { rollDice1(); }
-        if ( !is2Holding && canRollDice) { rollDice2(); }
-        if ( !is3Holding && canRollDice) { rollDice3(); }
-        if ( !is4Holding && canRollDice) { rollDice4(); }
-
         fillScoreCardValues();
     }
 
-    public static void fillScoreCardValues(){
-        
+    public void fillScoreCardValues(){
+        ArrayList<Integer> diceList = new ArrayList<>();
+        diceList.add(dice0Value);
+        diceList.add(dice1Value);
+        diceList.add(dice2Value);
+        diceList.add(dice3Value);
+        diceList.add(dice4Value);
+
+        Collections.sort(diceList);
+
+        if(!acesScored) { aces.setText("" + acesScore(diceList)); }
+        if(!twosScored) { twos.setText("" + twosScore(diceList)); }
+        if(!threesScored) { threes.setText("" + threesScore(diceList)); }
+        if(!foursScored) { fours.setText("" + foursScore(diceList)); }
+        if(!fivesScored) { fives.setText("" + fivesScore(diceList)); }
+        if(!sixesScored) { sixes.setText("" + sixesScore(diceList)); }
+    }
+
+    public void setAcesScore(){
+        if(canScore){
+            aces.setFont(Font.font("System", FontWeight.BOLD, 20));
+            acesScored = true;
+            aces.cursorProperty().set(Cursor.DEFAULT);
+            aces.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setTwosScore(){
+        if(canScore){
+            twos.setFont(Font.font("System", FontWeight.BOLD, 20));
+            twosScored = true;
+            twos.cursorProperty().set(Cursor.DEFAULT);
+            twos.onMouseClickedProperty().set(null);
+        }   
+        canScore = false;
+        nextTurn();
+    }
+    public void setThreesScore(){
+        if(canScore){
+            threes.setFont(Font.font("System", FontWeight.BOLD, 20));
+            threesScored = true;
+            threes.cursorProperty().set(Cursor.DEFAULT);
+            threes.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setFoursScore(){
+        if(canScore){
+            fours.setFont(Font.font("System", FontWeight.BOLD, 20));
+            foursScored = true;
+            fours.cursorProperty().set(Cursor.DEFAULT);
+            fours.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setFivesScore(){
+        if(canScore){
+            fives.setFont(Font.font("System", FontWeight.BOLD, 20));
+            fivesScored = true;
+            fives.cursorProperty().set(Cursor.DEFAULT);
+            fives.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setSixesScore(){
+        if(canScore){
+            sixes.setFont(Font.font("System", FontWeight.BOLD, 20));
+            sixesScored = true;
+            sixes.cursorProperty().set(Cursor.DEFAULT);
+            sixes.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+
+    public static int acesScore(ArrayList<Integer> diceList){
+        int score = 0;
+        for(int value : diceList){
+            if(value == 1){
+                score += value;
+            }
+        }
+        return score;
+    }
+    public static int twosScore(ArrayList<Integer> diceList){
+        int score = 0;
+        for(int value : diceList){
+            if(value == 2){
+                score += value;
+            }
+        }
+        return score;
+    }
+    public static int threesScore(ArrayList<Integer> diceList){
+        int score = 0;
+        for(int value : diceList){
+            if(value == 3){
+                score += value;
+            }
+        }
+        return score;
+    }
+    public static int foursScore(ArrayList<Integer> diceList){
+        int score = 0;
+        for(int value : diceList){
+            if(value == 4){
+                score += value;
+            }
+        }
+        return score;
+    }
+    public static int fivesScore(ArrayList<Integer> diceList){
+        int score = 0;
+        for(int value : diceList){
+            if(value == 5){
+                score += value;
+            }
+        }
+        return score;
+    }
+    public static int sixesScore(ArrayList<Integer> diceList){
+        int score = 0;
+        for(int value : diceList){
+            if(value == 6){
+                score += value;
+            }
+        }
+        return score;
+    }
+    public void calcUpperScore(){
+        int score = 0;
+        if(acesScored){ score += Integer.parseInt(aces.getText()); }
+        if(twosScored){ score += Integer.parseInt(twos.getText()); }
+        if(threesScored){ score += Integer.parseInt(threes.getText()); }
+        if(foursScored){ score += Integer.parseInt(fours.getText()); }
+        if(fivesScored){ score += Integer.parseInt(fives.getText()); }
+        if(sixesScored){ score += Integer.parseInt(sixes.getText()); }
+        if(score >= 63){ 
+            bonus.setFont(Font.font("System", FontWeight.BOLD, 15));
+            bonus.setText("+35 to\nGrand Total");
+        }
+        totalScoreUpper.setFont(Font.font("System", FontWeight.BOLD, 20));
+        totalScoreUpper.setText("" + score);
+    }
+    public int threeKindScore(ArrayList<Integer> diceList){
+        return 0;
+    }
+    public int fourKindScore(ArrayList<Integer> diceList){
+        return 0;
+    }
+    public int smStraightScore(ArrayList<Integer> diceList){
+        return 0;
+    }
+    public int lgStraightScore(ArrayList<Integer> diceList){
+        return 0;
+    }
+    public int yahtzeeScore(ArrayList<Integer> diceList){
+        return 0;
+    }
+    public int chanceScore(ArrayList<Integer> diceList){
+        return 0;
+    }
+    public int calcLowerScore(ArrayList<Integer> diceList){
+        return 0;
+    }
+    public int calcGrandScore(ArrayList<Integer> diceList){
+        return 0;
     }
     
     public void rollDice0(){
-        int newNum = (random.nextInt(6) + 1);
-        System.out.println(newNum);
-        switch(newNum){
+        dice0Value = (random.nextInt(6) + 1);
+        switch(dice0Value){
             case 1 -> {
                 label1.setTextFill(transparent);
                 label2.setTextFill(transparent);
@@ -308,9 +501,8 @@ public class Controller {
         }
     }
     public void rollDice1(){
-        int newNum = (random.nextInt(6)+1);
-        System.out.println(newNum);
-        switch(newNum){
+        dice1Value = (random.nextInt(6)+1);
+        switch(dice1Value){
             case 1 -> {
                 label8.setTextFill(transparent);
                 label9.setTextFill(transparent);
@@ -368,9 +560,8 @@ public class Controller {
         }
     }
     public void rollDice2(){
-        int newNum = (random.nextInt(6)+1);
-        System.out.println(newNum);
-        switch(newNum){
+        dice2Value = (random.nextInt(6)+1);
+        switch(dice2Value){
             case 1 -> {
                 label15.setTextFill(transparent);
                 label16.setTextFill(transparent);
@@ -428,9 +619,8 @@ public class Controller {
         }
     }
     public void rollDice3(){
-        int newNum = (random.nextInt(6)+1);
-        System.out.println(newNum);
-        switch(newNum){
+        dice3Value = (random.nextInt(6)+1);
+        switch(dice3Value){
             case 1 -> {
                 label22.setTextFill(transparent);
                 label23.setTextFill(transparent);
@@ -488,9 +678,8 @@ public class Controller {
         }
     }
     public void rollDice4(){
-        int newNum = (random.nextInt(6)+1);
-        System.out.println(newNum);
-        switch(newNum){
+        dice4Value = (random.nextInt(6)+1);
+        switch(dice4Value){
             case 1 -> {
                 label29.setTextFill(transparent);
                 label30.setTextFill(transparent);
