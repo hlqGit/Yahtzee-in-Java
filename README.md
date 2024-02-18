@@ -5,6 +5,4 @@ Right now I only have the core dice functionality, being able to roll and hold a
 ## To Do
 - Add scorecard functionality
 - Create score calculations for different combonations of dice
-- Add in player turns
-- Limit player to 3 rolls per turn
 - Add restarting functionality
