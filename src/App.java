@@ -18,3 +18,4 @@ public class App extends Application{
         stage.show();
     }
 }
+//my high score: 285
