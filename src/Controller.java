@@ -154,6 +154,8 @@ public class Controller {
     private boolean sixesScored;
     private boolean threeKindScored;
     private boolean fourKindScored;
+    private boolean smStraightScored;
+    private boolean lgStraightScored;
     
     private static int dice0Value;
     private static int dice1Value;
@@ -291,6 +293,8 @@ public class Controller {
         //lower section
         if(!threeKindScored) { threeKind.setText("" + threeKindScore(diceList)); }
         if(!fourKindScored) { fourKind.setText("" + fourKindScore(diceList)); }
+        if(!smStraightScored) { smStraight.setText("" + smStraightScore(diceList)); }
+        if(!lgStraightScored) { lgStraight.setText("" + lgStraightScore(diceList)); }
     }
 
     public void setAcesScore(){
@@ -369,6 +373,26 @@ public class Controller {
             fourKindScored = true;
             fourKind.cursorProperty().set(Cursor.DEFAULT);
             fourKind.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setSmStraightScore(){
+        if(canScore){
+            smStraight.setFont(Font.font("System", FontWeight.BOLD, 20));
+            smStraightScored = true;
+            smStraight.cursorProperty().set(Cursor.DEFAULT);
+            smStraight.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setLgStraightScore(){
+        if(canScore){
+            lgStraight.setFont(Font.font("System", FontWeight.BOLD, 20));
+            lgStraightScored = true;
+            lgStraight.cursorProperty().set(Cursor.DEFAULT);
+            lgStraight.onMouseClickedProperty().set(null);
         }
         canScore = false;
         nextTurn();
@@ -453,6 +477,16 @@ public class Controller {
         return false;
     }
 
+    public boolean hasStraight(ArrayList<Integer> diceList, int straightVal){
+        int count = 0;
+        for(int i = 1; i < diceList.size(); i++){
+            if(diceList.get(i) == diceList.get(i-1) + 1){
+                count++;
+            }
+        }
+        return count >= (straightVal - 1);
+    }
+
     public int threeKindScore(ArrayList<Integer> diceList){
         int diceSum = dice0Value + dice1Value + dice2Value + dice3Value + dice4Value;
 
@@ -478,9 +512,15 @@ public class Controller {
         return 0;
     }
     public int smStraightScore(ArrayList<Integer> diceList){
+        if(hasStraight(diceList, 4)){
+            return 30;
+        }
         return 0;
     }
     public int lgStraightScore(ArrayList<Integer> diceList){
+        if(hasStraight(diceList, 5)){
+            return 40;
+        }
         return 0;
     }
     public int yahtzeeScore(ArrayList<Integer> diceList){
