@@ -157,12 +157,8 @@ public class Controller {
     private boolean fullHouseScored;
     private boolean smStraightScored;
     private boolean lgStraightScored;
-    
-    private static int dice0Value;
-    private static int dice1Value;
-    private static int dice2Value;
-    private static int dice3Value;
-    private static int dice4Value;
+    private boolean yahtzeeScored;
+    private boolean chanceScored;
     
     private boolean is0Holding;
     private boolean is1Holding;
@@ -174,7 +170,12 @@ public class Controller {
     private static boolean canRollDice = true;
     private static boolean canScore = true;
 
-    private static int turnsRemaining = 13;
+    private static int dice0Value;
+    private static int dice1Value;
+    private static int dice2Value;
+    private static int dice3Value;
+    private static int dice4Value;
+    
     private int rollCount;
 
     final Color holdRed = new Color(1.0, 0.0, 0.0, 0.4962);
@@ -297,6 +298,8 @@ public class Controller {
         if(!fullHouseScored) { fullHouse.setText("" + fullHouseScore(diceList));}
         if(!smStraightScored) { smStraight.setText("" + smStraightScore(diceList)); }
         if(!lgStraightScored) { lgStraight.setText("" + lgStraightScore(diceList)); }
+        if(!yahtzeeScored) { yahtzee.setText("" + yahtzeeScore(diceList)); }
+        if(!chanceScored) { chance.setText("" + chanceScore(diceList)); }
     }
 
     public void setAcesScore(){
@@ -409,6 +412,26 @@ public class Controller {
         canScore = false;
         nextTurn();
     }
+    public void setYahtzeeScore(){
+        if(canScore){
+            yahtzee.setFont(Font.font("System", FontWeight.BOLD, 20));
+            yahtzeeScored = true;
+            yahtzee.cursorProperty().set(Cursor.DEFAULT);
+            yahtzee.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setChanceScore(){
+        if(canScore){
+            chance.setFont(Font.font("System", FontWeight.BOLD, 20));
+            chanceScored = true;
+            chance.cursorProperty().set(Cursor.DEFAULT);
+            chance.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
 
     public static int acesScore(ArrayList<Integer> diceList){
         int score = 0;
@@ -482,11 +505,8 @@ public class Controller {
 
     public boolean hasConsecutive(ArrayList<Integer> diceList, int checkNum, int kind){
         int count = 0;
-
-        for(int val : diceList) { if ( val == checkNum ){count++;}}
-        if(count >= kind){return true;}
-
-        return false;
+        for(int val : diceList) { if ( val == checkNum ){ count++; } }
+        return count >= kind;
     }
 
     public boolean hasStraight(ArrayList<Integer> diceList, int straightVal){
@@ -500,32 +520,8 @@ public class Controller {
     }
 
     public int threeKindScore(ArrayList<Integer> diceList){
-        int diceSum = dice0Value + dice1Value + dice2Value + dice3Value + dice4Value;
+        boolean hasThreeKind = false;
 
-        if(hasConsecutive(diceList, 1, 3)){ return diceSum; }
-        if(hasConsecutive(diceList, 2, 3)){ return diceSum; }
-        if(hasConsecutive(diceList, 3, 3)){ return diceSum; }
-        if(hasConsecutive(diceList, 4, 3)){ return diceSum; }
-        if(hasConsecutive(diceList, 5, 3)){ return diceSum; }
-        if(hasConsecutive(diceList, 6, 3)){ return diceSum; }
-
-        return 0;
-    }
-    public int fourKindScore(ArrayList<Integer> diceList){
-        int diceSum = dice0Value + dice1Value + dice2Value + dice3Value + dice4Value;
-
-        if(hasConsecutive(diceList, 1, 4)){ return diceSum; }
-        if(hasConsecutive(diceList, 2, 4)){ return diceSum; }
-        if(hasConsecutive(diceList, 3, 4)){ return diceSum; }
-        if(hasConsecutive(diceList, 4, 4)){ return diceSum; }
-        if(hasConsecutive(diceList, 5, 4)){ return diceSum; }
-        if(hasConsecutive(diceList, 6, 4)){ return diceSum; }
-
-        return 0;
-    }
-    public int fullHouseScore(ArrayList<Integer> diceList){
-        boolean hasPair = false, hasThreeKind = false;
-        
         if(hasConsecutive(diceList, 1, 3)){ hasThreeKind = true; }
         if(hasConsecutive(diceList, 2, 3)){ hasThreeKind = true; }
         if(hasConsecutive(diceList, 3, 3)){ hasThreeKind = true; }
@@ -533,12 +529,37 @@ public class Controller {
         if(hasConsecutive(diceList, 5, 3)){ hasThreeKind = true; }
         if(hasConsecutive(diceList, 6, 3)){ hasThreeKind = true; }
 
-        if(hasConsecutive(diceList, 1, 2)){ hasPair = true; }
-        if(hasConsecutive(diceList, 2, 2)){ hasPair = true; }
-        if(hasConsecutive(diceList, 3, 2)){ hasPair = true; }
-        if(hasConsecutive(diceList, 4, 2)){ hasPair = true; }
-        if(hasConsecutive(diceList, 5, 2)){ hasPair = true; }
-        if(hasConsecutive(diceList, 6, 2)){ hasPair = true; }
+        return hasThreeKind ? dice0Value + dice1Value + dice2Value + dice3Value + dice4Value : 0;
+    }
+    public int fourKindScore(ArrayList<Integer> diceList){
+        boolean hasFourKind = false;
+
+        if(hasConsecutive(diceList, 1, 4)){ hasFourKind = true; }
+        if(hasConsecutive(diceList, 2, 4)){ hasFourKind = true; }
+        if(hasConsecutive(diceList, 3, 4)){ hasFourKind = true; }
+        if(hasConsecutive(diceList, 4, 4)){ hasFourKind = true; }
+        if(hasConsecutive(diceList, 5, 4)){ hasFourKind = true; }
+        if(hasConsecutive(diceList, 6, 4)){ hasFourKind = true; }
+
+        return hasFourKind ? dice0Value + dice1Value + dice2Value + dice3Value + dice4Value : 0;
+    }
+    public int fullHouseScore(ArrayList<Integer> diceList){
+        boolean hasPair = false, hasThreeKind = false;
+        int numChecked = -1;
+        
+        if(hasConsecutive(diceList, 1, 3)){ hasThreeKind = true; numChecked = 1; }
+        if(hasConsecutive(diceList, 2, 3)){ hasThreeKind = true; numChecked = 2; }
+        if(hasConsecutive(diceList, 3, 3)){ hasThreeKind = true; numChecked = 3; }
+        if(hasConsecutive(diceList, 4, 3)){ hasThreeKind = true; numChecked = 4; }
+        if(hasConsecutive(diceList, 5, 3)){ hasThreeKind = true; numChecked = 5; }
+        if(hasConsecutive(diceList, 6, 3)){ hasThreeKind = true; numChecked = 6; }
+
+        if(numChecked != 1 && hasConsecutive(diceList, 1, 2)){ hasPair = true; }
+        if(numChecked != 2 && hasConsecutive(diceList, 2, 2)){ hasPair = true; }
+        if(numChecked != 3 && hasConsecutive(diceList, 3, 2)){ hasPair = true; }
+        if(numChecked != 4 && hasConsecutive(diceList, 4, 2)){ hasPair = true; }
+        if(numChecked != 5 && hasConsecutive(diceList, 5, 2)){ hasPair = true; }
+        if(numChecked != 6 && hasConsecutive(diceList, 6, 2)){ hasPair = true; }
 
         return hasThreeKind && hasPair ? 25 : 0;
     }
@@ -555,10 +576,17 @@ public class Controller {
         return 0;
     }
     public int yahtzeeScore(ArrayList<Integer> diceList){
-        return 0;
+        boolean hasYahtzee = false;
+        if(hasConsecutive(diceList, 1, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 2, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 3, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 4, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 5, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 6, 5)){ hasYahtzee = true; }
+        return hasYahtzee ? 50 : 0;
     }
     public int chanceScore(ArrayList<Integer> diceList){
-        return 0;
+        return dice0Value + dice1Value + dice2Value + dice3Value + dice4Value;
     }
     public int calcLowerScore(ArrayList<Integer> diceList){
         return 0;
