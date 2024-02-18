@@ -154,6 +154,7 @@ public class Controller {
     private boolean sixesScored;
     private boolean threeKindScored;
     private boolean fourKindScored;
+    private boolean fullHouseScored;
     private boolean smStraightScored;
     private boolean lgStraightScored;
     
@@ -293,6 +294,7 @@ public class Controller {
         //lower section
         if(!threeKindScored) { threeKind.setText("" + threeKindScore(diceList)); }
         if(!fourKindScored) { fourKind.setText("" + fourKindScore(diceList)); }
+        if(!fullHouseScored) { fullHouse.setText("" + fullHouseScore(diceList));}
         if(!smStraightScored) { smStraight.setText("" + smStraightScore(diceList)); }
         if(!lgStraightScored) { lgStraight.setText("" + lgStraightScore(diceList)); }
     }
@@ -373,6 +375,16 @@ public class Controller {
             fourKindScored = true;
             fourKind.cursorProperty().set(Cursor.DEFAULT);
             fourKind.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setFullHouseScore(){
+        if(canScore){
+            fullHouse.setFont(Font.font("System", FontWeight.BOLD, 20));
+            fullHouseScored = true;
+            fullHouse.cursorProperty().set(Cursor.DEFAULT);
+            fullHouse.onMouseClickedProperty().set(null);
         }
         canScore = false;
         nextTurn();
@@ -510,6 +522,25 @@ public class Controller {
         if(hasConsecutive(diceList, 6, 4)){ return diceSum; }
 
         return 0;
+    }
+    public int fullHouseScore(ArrayList<Integer> diceList){
+        boolean hasPair = false, hasThreeKind = false;
+        
+        if(hasConsecutive(diceList, 1, 3)){ hasThreeKind = true; }
+        if(hasConsecutive(diceList, 2, 3)){ hasThreeKind = true; }
+        if(hasConsecutive(diceList, 3, 3)){ hasThreeKind = true; }
+        if(hasConsecutive(diceList, 4, 3)){ hasThreeKind = true; }
+        if(hasConsecutive(diceList, 5, 3)){ hasThreeKind = true; }
+        if(hasConsecutive(diceList, 6, 3)){ hasThreeKind = true; }
+
+        if(hasConsecutive(diceList, 1, 2)){ hasPair = true; }
+        if(hasConsecutive(diceList, 2, 2)){ hasPair = true; }
+        if(hasConsecutive(diceList, 3, 2)){ hasPair = true; }
+        if(hasConsecutive(diceList, 4, 2)){ hasPair = true; }
+        if(hasConsecutive(diceList, 5, 2)){ hasPair = true; }
+        if(hasConsecutive(diceList, 6, 2)){ hasPair = true; }
+
+        return hasThreeKind && hasPair ? 25 : 0;
     }
     public int smStraightScore(ArrayList<Integer> diceList){
         if(hasStraight(diceList, 4)){
