@@ -1,7 +1,3 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -10,6 +6,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class Controller {
 
@@ -152,6 +152,8 @@ public class Controller {
     private boolean foursScored;
     private boolean fivesScored;
     private boolean sixesScored;
+    private boolean threeKindScored;
+    private boolean fourKindScored;
     
     private static int dice0Value;
     private static int dice1Value;
@@ -277,13 +279,18 @@ public class Controller {
         diceList.add(dice4Value);
 
         Collections.sort(diceList);
-
+        
+        //upper section
         if(!acesScored) { aces.setText("" + acesScore(diceList)); }
         if(!twosScored) { twos.setText("" + twosScore(diceList)); }
         if(!threesScored) { threes.setText("" + threesScore(diceList)); }
         if(!foursScored) { fours.setText("" + foursScore(diceList)); }
         if(!fivesScored) { fives.setText("" + fivesScore(diceList)); }
         if(!sixesScored) { sixes.setText("" + sixesScore(diceList)); }
+
+        //lower section
+        if(!threeKindScored) { threeKind.setText("" + threeKindScore(diceList)); }
+        if(!fourKindScored) { fourKind.setText("" + fourKindScore(diceList)); }
     }
 
     public void setAcesScore(){
@@ -342,6 +349,26 @@ public class Controller {
             sixesScored = true;
             sixes.cursorProperty().set(Cursor.DEFAULT);
             sixes.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setThreeKindScore(){
+        if(canScore){
+            threeKind.setFont(Font.font("System", FontWeight.BOLD, 20));
+            threeKindScored = true;
+            threeKind.cursorProperty().set(Cursor.DEFAULT);
+            threeKind.onMouseClickedProperty().set(null);
+        }
+        canScore = false;
+        nextTurn();
+    }
+    public void setFourKindScore(){
+        if(canScore){
+            fourKind.setFont(Font.font("System", FontWeight.BOLD, 20));
+            fourKindScored = true;
+            fourKind.cursorProperty().set(Cursor.DEFAULT);
+            fourKind.onMouseClickedProperty().set(null);
         }
         canScore = false;
         nextTurn();
@@ -416,10 +443,38 @@ public class Controller {
         totalScoreUpper.setFont(Font.font("System", FontWeight.BOLD, 20));
         totalScoreUpper.setText("" + score);
     }
+
+    public boolean hasConsecutive(ArrayList<Integer> diceList, int checkNum, int kind){
+        int count = 0;
+
+        for(int val : diceList) { if ( val == checkNum ){count++;}}
+        if(count >= kind){return true;}
+
+        return false;
+    }
+
     public int threeKindScore(ArrayList<Integer> diceList){
+        int diceSum = dice0Value + dice1Value + dice2Value + dice3Value + dice4Value;
+
+        if(hasConsecutive(diceList, 1, 3)){ return diceSum; }
+        if(hasConsecutive(diceList, 2, 3)){ return diceSum; }
+        if(hasConsecutive(diceList, 3, 3)){ return diceSum; }
+        if(hasConsecutive(diceList, 4, 3)){ return diceSum; }
+        if(hasConsecutive(diceList, 5, 3)){ return diceSum; }
+        if(hasConsecutive(diceList, 6, 3)){ return diceSum; }
+
         return 0;
     }
     public int fourKindScore(ArrayList<Integer> diceList){
+        int diceSum = dice0Value + dice1Value + dice2Value + dice3Value + dice4Value;
+
+        if(hasConsecutive(diceList, 1, 4)){ return diceSum; }
+        if(hasConsecutive(diceList, 2, 4)){ return diceSum; }
+        if(hasConsecutive(diceList, 3, 4)){ return diceSum; }
+        if(hasConsecutive(diceList, 4, 4)){ return diceSum; }
+        if(hasConsecutive(diceList, 5, 4)){ return diceSum; }
+        if(hasConsecutive(diceList, 6, 4)){ return diceSum; }
+
         return 0;
     }
     public int smStraightScore(ArrayList<Integer> diceList){
