@@ -6,6 +6,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application{
+    // public static void main(String[] args) {
+        // sometimes it wont run if it is missing the main method, even though this is a JavaFX program :/
+    // }
     @Override
     public void start(Stage stage) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
