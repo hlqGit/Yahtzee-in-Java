@@ -4,6 +4,7 @@ Made in java! This is my first program I have made with a graphical interface, s
 - Add dice rolling "animation"
 - Add more information on how to play
 - fix being able to scratch any number
+- Create executable .jar file for the first release
 ## Completed
 - Added core dice functionality
 - Added scorecard calculations for every combonation
