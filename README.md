@@ -5,6 +5,7 @@ Made in java! This is my first program I have made with a graphical interface, s
 - Add more information on how to play
 - fix being able to scratch any number
 - Create executable .jar file for the first release
+- Provide compatibility for MacOS
 ## Completed
 - Added core dice functionality
 - Added scorecard calculations for every combonation
