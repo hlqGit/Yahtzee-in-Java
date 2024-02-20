@@ -4,3 +4,4 @@ bin/
 .vscode/
 *.MF
 *.jar
+target/
