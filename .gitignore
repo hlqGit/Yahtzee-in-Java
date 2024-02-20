@@ -1,3 +1,6 @@
-/.vscode
-/target
+*.json
+*.class
+bin/
+.vscode/
+*.MF
 *.jar
