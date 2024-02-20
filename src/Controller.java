@@ -137,11 +137,21 @@ public class Controller {
     @FXML
     private Label chance;
     @FXML
-    private Label yahtzeeBonus;
+    private Label yahtzeeBonusScore;
+    @FXML
+    private Label yahtzeeBonus0;
+    @FXML
+    private Label yahtzeeBonus1;
+    @FXML
+    private Label yahtzeeBonus2;
     @FXML
     private Label totalScoreLower;
     @FXML
     private Label grandTotal;
+    @FXML
+    private Label infoBoxLabel;
+    @FXML
+    private Label informationLabel;
 
     @FXML
     private Button rollDiceButton;
@@ -159,6 +169,9 @@ public class Controller {
     private boolean lgStraightScored;
     private boolean yahtzeeScored;
     private boolean chanceScored;
+    private boolean yahtzeeBonus0Scored;
+    private boolean yahtzeeBonus1Scored;
+    private boolean yahtzeeBonus2Scored;
     
     private boolean is0Holding;
     private boolean is1Holding;
@@ -169,12 +182,16 @@ public class Controller {
     private static boolean turnStarted;
     private static boolean canRollDice = true;
     private static boolean canScore = true;
+    private static boolean kindsTempAccess = false;
+    private static boolean lowerSectionTempAccess = false;
 
     private static int dice0Value;
     private static int dice1Value;
     private static int dice2Value;
     private static int dice3Value;
     private static int dice4Value;
+
+    private static int yahtzeeBonusCount;
     
     private int rollCount;
 
@@ -247,31 +264,39 @@ public class Controller {
         if(is4Holding){ holdDice4(); }
         turnStarted = false;
         calcUpperScore();
+        calcLowerScore();
+        yahtzeeBonusScore.setFont(Font.font("System", FontWeight.BOLD, 20));
+        yahtzeeBonusScore.setText("" + 100 * yahtzeeBonusCount);
+        calcGrandScore();
     }
 
     public void rollDice(){
-        turnStarted = true;
-        canScore = true;
-        if (!is0Holding && canRollDice) { rollDice0(); }
-        if (!is1Holding && canRollDice) { rollDice1(); }
-        if (!is2Holding && canRollDice) { rollDice2(); }
-        if (!is3Holding && canRollDice) { rollDice3(); }
-        if (!is4Holding && canRollDice) { rollDice4(); }
-        switch(rollCount){
-            case 0 -> {
-                ++rollCount;
-                rollDiceButton.setText("Roll!\n2 Rolls left");
+        if(canRollDice){
+            informationLabel.setText("");
+            infoBoxLabel.setText("");
+            turnStarted = true;
+            canScore = true;
+            if (!is0Holding) { rollDice0(); }
+            if (!is1Holding) { rollDice1(); }
+            if (!is2Holding) { rollDice2(); }
+            if (!is3Holding) { rollDice3(); }
+            if (!is4Holding) { rollDice4(); }
+            switch(rollCount){
+                case 0 -> {
+                    ++rollCount;
+                    rollDiceButton.setText("Roll!\n2 Rolls left");
+                }
+                case 1 -> {
+                    ++rollCount;
+                    rollDiceButton.setText("Roll!\n1 Roll left");
+                }
+                case 2 -> {
+                    canRollDice = false;
+                    rollDiceButton.setText("Cannot Roll:\nFill in the scorecard");
+                }
             }
-            case 1 -> {
-                ++rollCount;
-                rollDiceButton.setText("Roll!\n1 Roll left");
-            }
-            case 2 -> {
-                canRollDice = false;
-                rollDiceButton.setText("Cannot Roll:\nFill in the scorecard");
-            }
+            fillScoreCardValues();
         }
-        fillScoreCardValues();
     }
 
     public void fillScoreCardValues(){
@@ -300,6 +325,9 @@ public class Controller {
         if(!lgStraightScored) { lgStraight.setText("" + lgStraightScore(diceList)); }
         if(!yahtzeeScored) { yahtzee.setText("" + yahtzeeScore(diceList)); }
         if(!chanceScored) { chance.setText("" + chanceScore(diceList)); }
+        if(yahtzeeScored && !yahtzeeBonus0Scored) { yahtzeeBonus0.setText("" + yahtzeeBonusScore(diceList)); }
+        if(yahtzeeBonus0Scored && !yahtzeeBonus1Scored) { yahtzeeBonus1.setText("" + yahtzeeBonusScore(diceList)); }
+        if(yahtzeeBonus1Scored && !yahtzeeBonus2Scored) { yahtzeeBonus2.setText("" + yahtzeeBonusScore(diceList)); }
     }
 
     public void setAcesScore(){
@@ -308,9 +336,9 @@ public class Controller {
             acesScored = true;
             aces.cursorProperty().set(Cursor.DEFAULT);
             aces.onMouseClickedProperty().set(null);
+            canScore = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setTwosScore(){
         if(canScore){
@@ -318,9 +346,9 @@ public class Controller {
             twosScored = true;
             twos.cursorProperty().set(Cursor.DEFAULT);
             twos.onMouseClickedProperty().set(null);
-        }   
-        canScore = false;
-        nextTurn();
+            canScore = false;
+            nextTurn();
+        }
     }
     public void setThreesScore(){
         if(canScore){
@@ -328,9 +356,9 @@ public class Controller {
             threesScored = true;
             threes.cursorProperty().set(Cursor.DEFAULT);
             threes.onMouseClickedProperty().set(null);
+            canScore = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setFoursScore(){
         if(canScore){
@@ -338,9 +366,9 @@ public class Controller {
             foursScored = true;
             fours.cursorProperty().set(Cursor.DEFAULT);
             fours.onMouseClickedProperty().set(null);
+            canScore = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setFivesScore(){
         if(canScore){
@@ -348,9 +376,9 @@ public class Controller {
             fivesScored = true;
             fives.cursorProperty().set(Cursor.DEFAULT);
             fives.onMouseClickedProperty().set(null);
+            canScore = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setSixesScore(){
         if(canScore){
@@ -358,59 +386,60 @@ public class Controller {
             sixesScored = true;
             sixes.cursorProperty().set(Cursor.DEFAULT);
             sixes.onMouseClickedProperty().set(null);
+            canScore = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setThreeKindScore(){
-        if(canScore){
+        if(canScore || kindsTempAccess){
             threeKind.setFont(Font.font("System", FontWeight.BOLD, 20));
             threeKindScored = true;
             threeKind.cursorProperty().set(Cursor.DEFAULT);
             threeKind.onMouseClickedProperty().set(null);
+            canScore = false; kindsTempAccess = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setFourKindScore(){
-        if(canScore){
+        if(canScore || kindsTempAccess){
             fourKind.setFont(Font.font("System", FontWeight.BOLD, 20));
             fourKindScored = true;
             fourKind.cursorProperty().set(Cursor.DEFAULT);
             fourKind.onMouseClickedProperty().set(null);
+            canScore = false; kindsTempAccess = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setFullHouseScore(){
-        if(canScore){
+        if(canScore || lowerSectionTempAccess){
             fullHouse.setFont(Font.font("System", FontWeight.BOLD, 20));
             fullHouseScored = true;
             fullHouse.cursorProperty().set(Cursor.DEFAULT);
             fullHouse.onMouseClickedProperty().set(null);
-        }
-        canScore = false;
-        nextTurn();
+            canScore = false; lowerSectionTempAccess = false;
+            nextTurn();
+        } 
     }
     public void setSmStraightScore(){
-        if(canScore){
+        if(canScore || lowerSectionTempAccess){
             smStraight.setFont(Font.font("System", FontWeight.BOLD, 20));
             smStraightScored = true;
             smStraight.cursorProperty().set(Cursor.DEFAULT);
             smStraight.onMouseClickedProperty().set(null);
+            canScore = false; lowerSectionTempAccess = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setLgStraightScore(){
-        if(canScore){
+        if(canScore || lowerSectionTempAccess){
             lgStraight.setFont(Font.font("System", FontWeight.BOLD, 20));
             lgStraightScored = true;
             lgStraight.cursorProperty().set(Cursor.DEFAULT);
             lgStraight.onMouseClickedProperty().set(null);
+            canScore = false; lowerSectionTempAccess = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
+        
     }
     public void setYahtzeeScore(){
         if(canScore){
@@ -418,9 +447,9 @@ public class Controller {
             yahtzeeScored = true;
             yahtzee.cursorProperty().set(Cursor.DEFAULT);
             yahtzee.onMouseClickedProperty().set(null);
+            canScore = false; 
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
     }
     public void setChanceScore(){
         if(canScore){
@@ -428,9 +457,157 @@ public class Controller {
             chanceScored = true;
             chance.cursorProperty().set(Cursor.DEFAULT);
             chance.onMouseClickedProperty().set(null);
+            canScore = false;
+            nextTurn();
         }
-        canScore = false;
-        nextTurn();
+    }
+    public void setYahtzeeBonusScore(){
+        if(canScore){
+            switch (yahtzeeBonusCount){
+                case 0 -> {
+                    if(canScore){
+                        yahtzeeBonus0.setFont(Font.font("System", FontWeight.BOLD, 20));
+                        yahtzeeBonus0Scored = true;
+                        yahtzeeBonus0.cursorProperty().set(Cursor.DEFAULT);
+                        yahtzeeBonus0.onMouseClickedProperty().set(null);
+                    }
+                }
+                case 1 -> {
+                    if(canScore){
+                        yahtzeeBonus1.setFont(Font.font("System", FontWeight.BOLD, 20));
+                        yahtzeeBonus1Scored = true;
+                        yahtzeeBonus1.cursorProperty().set(Cursor.DEFAULT);
+                        yahtzeeBonus1.onMouseClickedProperty().set(null);
+                    }
+                }
+                case 2 -> {
+                    if(canScore){
+                        yahtzeeBonus2.setFont(Font.font("System", FontWeight.BOLD, 20));
+                        yahtzeeBonus2Scored = true;
+                        yahtzeeBonus2.cursorProperty().set(Cursor.DEFAULT);
+                        yahtzeeBonus2.onMouseClickedProperty().set(null);
+                    }
+                }
+            }
+            yahtzeeBonusCount++;
+            informationLabel.setText("Information:");
+            switch(dice0Value){
+                case 1 -> {
+                    if (!acesScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and 5 more for the Aces category which has been filled out automatically.");
+                        setAcesScore();
+                        canScore = false;
+                        nextTurn();
+                    } else if (!threeKindScored || !fourKindScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 5 in either the three or four of a kind category.");
+                        canScore = false; canRollDice = false;
+                        kindsTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
+                        fullHouse.setText("25");
+                        smStraight.setText("30");
+                        lgStraight.setText("40");
+                        canScore = false; canRollDice = false;
+                        lowerSectionTempAccess = true;
+                    }
+                }
+                case 2 -> {
+                    if (!twosScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and 10 more for the Twos category which has been filled out automatically.");
+                        setTwosScore();
+                        canScore = false;
+                        nextTurn();
+                    } else if (!threeKindScored || !fourKindScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 10 in either the three or four of a kind category.");
+                        canScore = false; canRollDice = false;
+                        kindsTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
+                        fullHouse.setText("25");
+                        smStraight.setText("30");
+                        lgStraight.setText("40");
+                        canScore = false; canRollDice = false;
+                        lowerSectionTempAccess = true;
+                    }
+                }
+                case 3 -> {
+                    if (!threesScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and 15 more for the Threes category which has been filled out automatically.");
+                        setThreesScore();
+                        canScore = false;
+                        nextTurn();
+                    } else if (!threeKindScored || !fourKindScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 15 in either the three or four of a kind category.");
+                        canScore = false; canRollDice = false;
+                        kindsTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
+                        fullHouse.setText("25");
+                        smStraight.setText("30");
+                        lgStraight.setText("40");
+                        canScore = false; canRollDice = false;
+                        lowerSectionTempAccess = true;
+                    }
+                }
+                case 4 -> {
+                    if (!foursScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and 20 more for the Fours category which has been filled out automatically.");
+                        setFoursScore();
+                        canScore = false;
+                        nextTurn();
+                    } else if (!threeKindScored || !fourKindScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 20 in either the three or four of a kind category.");
+                        canScore = false; canRollDice = false;
+                        kindsTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
+                        fullHouse.setText("25");
+                        smStraight.setText("30");
+                        lgStraight.setText("40");
+                        canScore = false; canRollDice = false;
+                        lowerSectionTempAccess = true;
+                    }
+                }
+                case 5 -> {
+                    if (!fivesScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and 25 more for the Fives category which has been filled out automatically.");
+                        setFivesScore();
+                        canScore = false;
+                        nextTurn();
+                    } else if (!threeKindScored || !fourKindScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 25 in either the three or four of a kind category.");
+                        canScore = false; canRollDice = false;
+                        kindsTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
+                        fullHouse.setText("25");
+                        smStraight.setText("30");
+                        lgStraight.setText("40");
+                        canScore = false; canRollDice = false;
+                        lowerSectionTempAccess = true;
+                    }
+                }
+                case 6 -> {
+                    if (!sixesScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and 30 more for the Sixes category which has been filled out automatically.");
+                        setSixesScore();
+                        canScore = false;
+                        nextTurn();
+                    } else if (!threeKindScored || !fourKindScored){
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 30 in either the three or four of a kind category.");
+                        canScore = false; canRollDice = false;
+                        kindsTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
+                        fullHouse.setText("25");
+                        smStraight.setText("30");
+                        lgStraight.setText("40");
+                        canScore = false; canRollDice = false;
+                        lowerSectionTempAccess = true;
+                    }
+                }
+            }
+        }
     }
 
     public static int acesScore(ArrayList<Integer> diceList){
@@ -588,11 +765,36 @@ public class Controller {
     public int chanceScore(ArrayList<Integer> diceList){
         return dice0Value + dice1Value + dice2Value + dice3Value + dice4Value;
     }
-    public int calcLowerScore(ArrayList<Integer> diceList){
-        return 0;
+    public String yahtzeeBonusScore(ArrayList<Integer> diceList){
+        boolean hasYahtzee = false;
+        if(hasConsecutive(diceList, 1, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 2, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 3, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 4, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 5, 5)){ hasYahtzee = true; }
+        if(hasConsecutive(diceList, 6, 5)){ hasYahtzee = true; }
+        return hasYahtzee ? "X" : "";
     }
-    public int calcGrandScore(ArrayList<Integer> diceList){
-        return 0;
+    public void calcLowerScore(){
+        int score = 0;
+        if(threeKindScored) { score += Integer.parseInt(threeKind.getText()); }
+        if(fourKindScored) { score += Integer.parseInt(fourKind.getText()); }
+        if(fullHouseScored) { score += Integer.parseInt(fullHouse.getText()); }
+        if(smStraightScored) { score += Integer.parseInt(smStraight.getText()); }
+        if(lgStraightScored) { score += Integer.parseInt(lgStraight.getText()); }
+        if(yahtzeeScored) { score += Integer.parseInt(yahtzee.getText()); }
+        if(chanceScored) { score += Integer.parseInt(chance.getText()); }
+        score += yahtzeeBonusCount * 100;
+        totalScoreLower.setFont(Font.font("System", FontWeight.BOLD, 20));
+        totalScoreLower.setText("" + score);
+    }
+    public void calcGrandScore(){
+        int score = 0;
+        grandTotal.setFont(Font.font("System", FontWeight.BOLD, 20));
+        score += Integer.parseInt(totalScoreLower.getText());
+        score += Integer.parseInt(totalScoreUpper.getText());
+        if(bonus.getText().contains("+")){ score += 35; }
+        grandTotal.setText("" + score);
     }
     
     public void rollDice0(){
