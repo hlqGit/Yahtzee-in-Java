@@ -268,7 +268,7 @@ public class Controller {
         calcUpperScore();
         calcLowerScore();
         yahtzeeBonusScore.setFont(Font.font("System", FontWeight.BOLD, 20));
-        yahtzeeBonusScore.setText("" + 100 * yahtzeeBonusCount);
+        yahtzeeBonusScore.setText(yahtzeeBonusCount > 0 ? "" + 100 * yahtzeeBonusCount : "");
         calcGrandScore();
         if(allCategoriesScored()){
             canRollDice = false;
