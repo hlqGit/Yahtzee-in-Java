@@ -3,7 +3,7 @@ Made in java! This is my first program I have made with a graphical interface, s
 ### To Do
 - Add dice rolling "animation"
 - Add more information on how to play
-- fix being able to scratch any number
+- Add warnings when trying to scratch a number
 - Create executable .jar file for the first release
 ### Completed
 - Added core dice functionality
