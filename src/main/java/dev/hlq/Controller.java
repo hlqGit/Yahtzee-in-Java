@@ -270,6 +270,17 @@ public class Controller {
         yahtzeeBonusScore.setFont(Font.font("System", FontWeight.BOLD, 20));
         yahtzeeBonusScore.setText("" + 100 * yahtzeeBonusCount);
         calcGrandScore();
+        if(allCategoriesScored()){
+            canRollDice = false;
+            rollDiceButton.setText("Game Over!");
+        }
+    }
+
+    public boolean allCategoriesScored(){
+        return acesScored && twosScored && threesScored && foursScored 
+        && fivesScored && sixesScored && threeKindScored && fourKindScored 
+        && fullHouseScored && smStraightScored && lgStraightScored && yahtzeeScored
+        && chanceScored;
     }
 
     public void rollDice(){
@@ -296,7 +307,9 @@ public class Controller {
                 }
                 case 2 : {
                     canRollDice = false;
-                    rollDiceButton.setText("Cannot Roll:\nFill in the scorecard");
+                    rollDiceButton.setText("Out of rolls!");
+                    informationLabel.setText("Information:");
+                    infoBoxLabel.setText("You must fill out your scorecard now!");
                     break;
                 }
             }
@@ -510,13 +523,16 @@ public class Controller {
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 5 in either the three or four of a kind category.");
                         canScore = false; canRollDice = false;
                         kindsTempAccess = true;
-                    } else {
+                    } else if (!fullHouseScored || !smStraightScored || !lgStraightScored){
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
                         fullHouse.setText("25");
                         smStraight.setText("30");
                         lgStraight.setText("40");
                         canScore = false; canRollDice = false;
                         lowerSectionTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points.");
+                        canScore = false; canRollDice = false;
                     }
                     break;
                 }
@@ -530,13 +546,16 @@ public class Controller {
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 10 in either the three or four of a kind category.");
                         canScore = false; canRollDice = false;
                         kindsTempAccess = true;
-                    } else {
+                    } else if (!fullHouseScored || !smStraightScored || !lgStraightScored){
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
                         fullHouse.setText("25");
                         smStraight.setText("30");
                         lgStraight.setText("40");
                         canScore = false; canRollDice = false;
                         lowerSectionTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points.");
+                        canScore = false; canRollDice = false;
                     }
                     break;
                 }
@@ -550,13 +569,16 @@ public class Controller {
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 15 in either the three or four of a kind category.");
                         canScore = false; canRollDice = false;
                         kindsTempAccess = true;
-                    } else {
+                    } else if (!fullHouseScored || !smStraightScored || !lgStraightScored){
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
                         fullHouse.setText("25");
                         smStraight.setText("30");
                         lgStraight.setText("40");
                         canScore = false; canRollDice = false;
                         lowerSectionTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points.");
+                        canScore = false; canRollDice = false;
                     }
                     break;
                 }
@@ -570,13 +592,16 @@ public class Controller {
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 20 in either the three or four of a kind category.");
                         canScore = false; canRollDice = false;
                         kindsTempAccess = true;
-                    } else {
+                    } else if (!fullHouseScored || !smStraightScored || !lgStraightScored){
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
                         fullHouse.setText("25");
                         smStraight.setText("30");
                         lgStraight.setText("40");
                         canScore = false; canRollDice = false;
                         lowerSectionTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points.");
+                        canScore = false; canRollDice = false;
                     }
                     break;
                 }
@@ -590,13 +615,16 @@ public class Controller {
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 25 in either the three or four of a kind category.");
                         canScore = false; canRollDice = false;
                         kindsTempAccess = true;
-                    } else {
+                    } else if (!fullHouseScored || !smStraightScored || !lgStraightScored){
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
                         fullHouse.setText("25");
                         smStraight.setText("30");
                         lgStraight.setText("40");
                         canScore = false; canRollDice = false;
                         lowerSectionTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points.");
+                        canScore = false; canRollDice = false;
                     }
                     break;
                 }
@@ -610,13 +638,16 @@ public class Controller {
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points. Now you must put a 30 in either the three or four of a kind category.");
                         canScore = false; canRollDice = false;
                         kindsTempAccess = true;
-                    } else {
+                    } else if (!fullHouseScored || !smStraightScored || !lgStraightScored){
                         infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points, and must select any lower section category to fill out too!");
                         fullHouse.setText("25");
                         smStraight.setText("30");
                         lgStraight.setText("40");
                         canScore = false; canRollDice = false;
                         lowerSectionTempAccess = true;
+                    } else {
+                        infoBoxLabel.setText("Yahtzee Bonus! You earned 100 points.");
+                        canScore = false; canRollDice = false;
                     }
                     break;
                 }
