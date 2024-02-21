@@ -181,9 +181,9 @@ public class Controller {
     private boolean is3Holding;
     private boolean is4Holding;
 
-    private static boolean turnStarted;
+    private static boolean turnStarted = false;
     private static boolean canRollDice = true;
-    private static boolean canScore = true;
+    private static boolean canScore = false;
     private static boolean kindsTempAccess = false;
     private static boolean lowerSectionTempAccess = false;
 
@@ -315,7 +315,7 @@ public class Controller {
         Collections.sort(diceList);
         
         //upper section
-        if(!acesScored) { aces.setText("" + acesScore(diceList)); }
+        if(!acesScored && acesScore(diceList) != 0) { aces.setText("" + acesScore(diceList)); }
         if(!twosScored) { twos.setText("" + twosScore(diceList)); }
         if(!threesScored) { threes.setText("" + threesScore(diceList)); }
         if(!foursScored) { fours.setText("" + foursScore(diceList)); }
