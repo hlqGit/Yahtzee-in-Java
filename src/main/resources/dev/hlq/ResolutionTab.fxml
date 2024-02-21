@@ -7,40 +7,45 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.hlq.SecondaryController">
    <children>
-      <Label layoutX="42.0" layoutY="56.0" text="Please Select a Resolution">
+      <Label layoutX="43.0" layoutY="87.0" text="Please Select a Resolution">
          <font>
             <Font name="SansSerif Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="43.0" layoutY="132.0" text="600x900">
+      <Label layoutX="44.0" layoutY="148.0" text="600x900">
          <font>
             <Font name="SansSerif Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="247.0" layoutY="132.0" text="800x1200">
+      <Label layoutX="248.0" layoutY="148.0" text="800x1200">
          <font>
             <Font name="SansSerif Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="68.0" layoutY="115.0" text="Normal">
+      <Label layoutX="69.0" layoutY="131.0" text="Normal">
          <font>
             <Font name="SansSerif Regular" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="279.0" layoutY="115.0" text="Larger">
+      <Label layoutX="280.0" layoutY="131.0" text="Larger">
          <font>
             <Font name="SansSerif Regular" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="resolution1" layoutX="39.0" layoutY="179.0" mnemonicParsing="false" onMouseClicked="#resolution1Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
+      <Button fx:id="resolution1" layoutX="40.0" layoutY="195.0" mnemonicParsing="false" onMouseClicked="#resolution1Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
          <font>
             <Font name="SansSerif Bold Italic" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="resolution2" layoutX="250.0" layoutY="179.0" mnemonicParsing="false" onMouseClicked="#resolution2Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
+      <Button fx:id="resolution2" layoutX="251.0" layoutY="195.0" mnemonicParsing="false" onMouseClicked="#resolution2Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
          <font>
             <Font name="SansSerif Bold Italic" size="16.0" />
          </font>
       </Button>
+      <Label layoutX="101.0" layoutY="37.0" text="Scorecard Launcher">
+         <font>
+            <Font name="SansSerif Regular" size="22.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
