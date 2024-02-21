@@ -300,27 +300,27 @@
             </Label>
             <Label fx:id="hold0" alignment="CENTER" contentDisplay="CENTER" prefHeight="230.0" prefWidth="180.0" text="HOLD" textAlignment="CENTER" textFill="#ff000000" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
-                  <Font name="SansSerif Bold Italic" size="69.0" />
+                  <Font name="SansSerif Bold Italic" size="55.0" />
                </font>
             </Label>
             <Label fx:id="hold1" alignment="CENTER" contentDisplay="CENTER" opacity="0.5" prefHeight="180.0" text="HOLD" textAlignment="CENTER" textFill="#ff000000" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
-                  <Font name="SansSerif Bold Italic" size="69.0" />
+                  <Font name="SansSerif Bold Italic" size="55.0" />
                </font>
             </Label>
             <Label fx:id="hold2" alignment="CENTER" contentDisplay="CENTER" opacity="0.5" prefHeight="180.0" text="HOLD" textAlignment="CENTER" textFill="#ff000000" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
-                  <Font name="SansSerif Bold Italic" size="69.0" />
+                  <Font name="SansSerif Bold Italic" size="55.0" />
                </font>
             </Label>
             <Label fx:id="hold3" alignment="CENTER" contentDisplay="CENTER" opacity="0.5" prefHeight="180.0" text="HOLD" textAlignment="CENTER" textFill="#ff000000" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
-                  <Font name="SansSerif Bold Italic" size="69.0" />
+                  <Font name="SansSerif Bold Italic" size="55.0" />
                </font>
             </Label>
             <Label fx:id="hold4" alignment="CENTER" contentDisplay="CENTER" opacity="0.5" prefHeight="180.0" text="HOLD" textAlignment="CENTER" textFill="#ff000000" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
-                  <Font name="SansSerif Bold Italic" size="69.0" />
+                  <Font name="SansSerif Bold Italic" size="55.0" />
                </font>
             </Label>
             <Rectangle fx:id="dice0" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="180.0" onMouseClicked="#holdDice0" stroke="BLACK" strokeType="INSIDE" width="180.0" />
