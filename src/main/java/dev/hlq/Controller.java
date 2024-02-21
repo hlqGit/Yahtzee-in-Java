@@ -328,7 +328,7 @@ public class Controller {
         Collections.sort(diceList);
         
         //upper section
-        if(!acesScored && acesScore(diceList) != 0) { aces.setText("" + acesScore(diceList)); }
+        if(!acesScored) { aces.setText("" + acesScore(diceList)); }
         if(!twosScored) { twos.setText("" + twosScore(diceList)); }
         if(!threesScored) { threes.setText("" + threesScore(diceList)); }
         if(!foursScored) { fours.setText("" + foursScore(diceList)); }
