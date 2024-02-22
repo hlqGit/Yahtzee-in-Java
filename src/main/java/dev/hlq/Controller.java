@@ -9,193 +9,42 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 public class Controller {
 
     @FXML
-    private Rectangle dice0;
-    @FXML
-    private Rectangle dice1;
-    @FXML
-    private Rectangle dice2;
-    @FXML
-    private Rectangle dice3;
-    @FXML
-    private Rectangle dice4;
+    private Rectangle dice0, dice1, dice2, dice3, dice4;
 
     @FXML
-    private Label label1;
-    @FXML 
-    private Label label2;
-    @FXML 
-    private Label label3; 
-    @FXML
-    private Label label4; 
-    @FXML
-    private Label label5; 
-    @FXML
-    private Label label6; 
-    @FXML
-    private Label label7; 
-    @FXML
-    private Label label8; 
-    @FXML
-    private Label label9; 
-    @FXML
-    private Label label10; 
-    @FXML
-    private Label label11; 
-    @FXML
-    private Label label12; 
-    @FXML
-    private Label label13; 
-    @FXML
-    private Label label14; 
-    @FXML
-    private Label label15; 
-    @FXML
-    private Label label16; 
-    @FXML
-    private Label label17; 
-    @FXML
-    private Label label18; 
-    @FXML
-    private Label label19; 
-    @FXML
-    private Label label20; 
-    @FXML
-    private Label label21; 
-    @FXML
-    private Label label22;
-    @FXML
-    private Label label23; 
-    @FXML
-    private Label label24; 
-    @FXML
-    private Label label25; 
-    @FXML
-    private Label label26; 
-    @FXML
-    private Label label27; 
-    @FXML
-    private Label label28; 
-    @FXML
-    private Label label29; 
-    @FXML
-    private Label label30; 
-    @FXML
-    private Label label31;
-    @FXML 
-    private Label label32; 
-    @FXML
-    private Label label33; 
-    @FXML
-    private Label label34; 
-    @FXML
-    private Label label35;
+    private Label label1, label2, label3, label4, label5, label6, label7, label8,
+    label9, label10, label11, label12, label13, label14, label15, label16, label17,
+    label18, label19, label20, label21, label22, label23, label24, label25, label26,
+    label27, label28, label29, label30, label31, label32, label33, label34, label35;
 
     @FXML
-    private Label hold0;
-    @FXML
-    private Label hold1;
-    @FXML
-    private Label hold2;
-    @FXML
-    private Label hold3;
-    @FXML
-    private Label hold4;
+    private Label hold0, hold1, hold2, hold3, hold4;
 
     @FXML
-    private Label aces;
-    @FXML
-    private Label twos;
-    @FXML
-    private Label threes;
-    @FXML
-    private Label fours;
-    @FXML
-    private Label fives;
-    @FXML
-    private Label sixes;
-    @FXML
-    private Label totalScoreUpper;
-    @FXML
-    private Label bonus;
-    @FXML
-    private Label threeKind;
-    @FXML
-    private Label fourKind;
-    @FXML
-    private Label fullHouse;
-    @FXML
-    private Label smStraight;
-    @FXML
-    private Label lgStraight;
-    @FXML
-    private Label yahtzee;
-    @FXML
-    private Label chance;
-    @FXML
-    private Label yahtzeeBonusScore;
-    @FXML
-    private Label yahtzeeBonus0;
-    @FXML
-    private Label yahtzeeBonus1;
-    @FXML
-    private Label yahtzeeBonus2;
-    @FXML
-    private Label totalScoreLower;
-    @FXML
-    private Label grandTotal;
-    @FXML
-    private Label infoBoxLabel;
-    @FXML
-    private Label informationLabel;
+    private Label aces, twos, threes, fours, fives, sixes, totalScoreUpper, bonus,
+    threeKind, fourKind, fullHouse, smStraight, lgStraight, yahtzee, chance,
+    yahtzeeBonusScore, yahtzeeBonus0, yahtzeeBonus1, yahtzeeBonus2, totalScoreLower,
+    grandTotal, infoBoxLabel, informationLabel;
 
     @FXML
     private Button rollDiceButton;
 
-    private boolean acesScored;
-    private boolean twosScored;
-    private boolean threesScored;
-    private boolean foursScored;
-    private boolean fivesScored;
-    private boolean sixesScored;
-    private boolean threeKindScored;
-    private boolean fourKindScored;
-    private boolean fullHouseScored;
-    private boolean smStraightScored;
-    private boolean lgStraightScored;
-    private boolean yahtzeeScored;
-    private boolean chanceScored;
-    private boolean yahtzeeBonus0Scored;
-    private boolean yahtzeeBonus1Scored;
-    private boolean yahtzeeBonus2Scored;
-    
-    private boolean is0Holding;
-    private boolean is1Holding;
-    private boolean is2Holding;
-    private boolean is3Holding;
-    private boolean is4Holding;
+    private boolean acesScored, twosScored, threesScored, foursScored, fivesScored,
+    sixesScored, threeKindScored, fourKindScored, fullHouseScored, smStraightScored,
+    lgStraightScored, yahtzeeScored, chanceScored, yahtzeeBonus0Scored, yahtzeeBonus1Scored,
+    yahtzeeBonus2Scored, is0Holding, is1Holding, is2Holding, is3Holding, is4Holding;
 
-    private static boolean turnStarted = false;
-    private static boolean canRollDice = true;
-    private static boolean canScore = false;
-    private static boolean kindsTempAccess = false;
-    private static boolean lowerSectionTempAccess = false;
+    private static boolean turnStarted = false, canRollDice = true, canScore = false,
+    kindsTempAccess = false, lowerSectionTempAccess = false;
 
-    private static int dice0Value;
-    private static int dice1Value;
-    private static int dice2Value;
-    private static int dice3Value;
-    private static int dice4Value;
-
+    private static int dice0Value, dice1Value, dice2Value, dice3Value, dice4Value;
     private static int yahtzeeBonusCount;
-    
     private int rollCount;
 
     private static int[] diceList = new int[5];
