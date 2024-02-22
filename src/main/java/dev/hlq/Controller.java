@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -197,6 +198,8 @@ public class Controller {
     
     private int rollCount;
 
+    private static int[] diceList = new int[5];
+
     final Color holdRed = new Color(1.0, 0.0, 0.0, 0.4962);
     final Color transparent = new Color(1.0, 0.0, 0.0, 0.0);
     final Color black = new Color(0.0, 0.0, 0.0, 1.0);
@@ -318,14 +321,14 @@ public class Controller {
     }
 
     public void fillScoreCardValues(){
-        ArrayList<Integer> diceList = new ArrayList<>();
-        diceList.add(dice0Value);
-        diceList.add(dice1Value);
-        diceList.add(dice2Value);
-        diceList.add(dice3Value);
-        diceList.add(dice4Value);
+        
+        diceList[0] = dice0Value;
+        diceList[1] = dice1Value;
+        diceList[2] = dice2Value;
+        diceList[3] = dice3Value;
+        diceList[4] = dice4Value;
 
-        Collections.sort(diceList);
+        Arrays.sort(diceList);
         
         //upper section
         if(!acesScored) { aces.setText("" + acesScore(diceList)); }
@@ -655,7 +658,7 @@ public class Controller {
         }
     }
 
-    public static int acesScore(ArrayList<Integer> diceList){
+    public static int acesScore(int[] diceList){
         int score = 0;
         for(int value : diceList){
             if(value == 1){
@@ -664,7 +667,7 @@ public class Controller {
         }
         return score;
     }
-    public static int twosScore(ArrayList<Integer> diceList){
+    public static int twosScore(int[] diceList){
         int score = 0;
         for(int value : diceList){
             if(value == 2){
@@ -673,7 +676,7 @@ public class Controller {
         }
         return score;
     }
-    public static int threesScore(ArrayList<Integer> diceList){
+    public static int threesScore(int[] diceList){
         int score = 0;
         for(int value : diceList){
             if(value == 3){
@@ -682,7 +685,7 @@ public class Controller {
         }
         return score;
     }
-    public static int foursScore(ArrayList<Integer> diceList){
+    public static int foursScore(int[] diceList){
         int score = 0;
         for(int value : diceList){
             if(value == 4){
@@ -691,7 +694,7 @@ public class Controller {
         }
         return score;
     }
-    public static int fivesScore(ArrayList<Integer> diceList){
+    public static int fivesScore(int[] diceList){
         int score = 0;
         for(int value : diceList){
             if(value == 5){
@@ -700,7 +703,7 @@ public class Controller {
         }
         return score;
     }
-    public static int sixesScore(ArrayList<Integer> diceList){
+    public static int sixesScore(int[] diceList){
         int score = 0;
         for(int value : diceList){
             if(value == 6){
@@ -725,23 +728,23 @@ public class Controller {
         totalScoreUpper.setText("" + score);
     }
 
-    public boolean hasConsecutive(ArrayList<Integer> diceList, int checkNum, int kind){
+    public boolean hasConsecutive(int[] diceList, int checkNum, int kind){
         int count = 0;
         for(int val : diceList) { if ( val == checkNum ){ count++; } }
         return count >= kind;
     }
 
-    public boolean hasStraight(ArrayList<Integer> diceList, int straightVal){
+    public boolean hasStraight(int[] diceList, int straightVal){
         int count = 0;
-        for(int i = 1; i < diceList.size(); i++){
-            if(diceList.get(i) == diceList.get(i-1) + 1){
+        for(int i = 1; i < diceList.length; i++){
+            if(diceList[i] == diceList[i-1] + 1){
                 count++;
             }
         }
         return count >= (straightVal - 1);
     }
 
-    public int threeKindScore(ArrayList<Integer> diceList){
+    public int threeKindScore(int[] diceList){
         boolean hasThreeKind = false;
 
         if(hasConsecutive(diceList, 1, 3)){ hasThreeKind = true; }
@@ -753,7 +756,7 @@ public class Controller {
 
         return hasThreeKind ? dice0Value + dice1Value + dice2Value + dice3Value + dice4Value : 0;
     }
-    public int fourKindScore(ArrayList<Integer> diceList){
+    public int fourKindScore(int[] diceList){
         boolean hasFourKind = false;
 
         if(hasConsecutive(diceList, 1, 4)){ hasFourKind = true; }
@@ -765,7 +768,7 @@ public class Controller {
 
         return hasFourKind ? dice0Value + dice1Value + dice2Value + dice3Value + dice4Value : 0;
     }
-    public int fullHouseScore(ArrayList<Integer> diceList){
+    public int fullHouseScore(int[] diceList){
         boolean hasPair = false, hasThreeKind = false;
         int numChecked = -1;
         
@@ -785,19 +788,19 @@ public class Controller {
 
         return hasThreeKind && hasPair ? 25 : 0;
     }
-    public int smStraightScore(ArrayList<Integer> diceList){
+    public int smStraightScore(int[] diceList){
         if(hasStraight(diceList, 4)){
             return 30;
         }
         return 0;
     }
-    public int lgStraightScore(ArrayList<Integer> diceList){
+    public int lgStraightScore(int[] diceList){
         if(hasStraight(diceList, 5)){
             return 40;
         }
         return 0;
     }
-    public int yahtzeeScore(ArrayList<Integer> diceList){
+    public int yahtzeeScore(int[] diceList){
         boolean hasYahtzee = false;
         if(hasConsecutive(diceList, 1, 5)){ hasYahtzee = true; }
         if(hasConsecutive(diceList, 2, 5)){ hasYahtzee = true; }
@@ -807,10 +810,10 @@ public class Controller {
         if(hasConsecutive(diceList, 6, 5)){ hasYahtzee = true; }
         return hasYahtzee ? 50 : 0;
     }
-    public int chanceScore(ArrayList<Integer> diceList){
+    public int chanceScore(int[] diceList){
         return dice0Value + dice1Value + dice2Value + dice3Value + dice4Value;
     }
-    public String yahtzeeBonusScore(ArrayList<Integer> diceList){
+    public String yahtzeeBonusScore(int[] diceList){
         boolean hasYahtzee = false;
         if(hasConsecutive(diceList, 1, 5)){ hasYahtzee = true; }
         if(hasConsecutive(diceList, 2, 5)){ hasYahtzee = true; }
