@@ -57,68 +57,40 @@ public class Controller {
 
     public void holdDice0(){
         if(!turnStarted) { return; }
-        if(!is0Holding ){
-            hold0.setTextFill(holdRed);
-            is0Holding = true;
-        } else {
-            hold0.setTextFill(transparent);
-            is0Holding = false;
-        }
+        if(!is0Holding ){ hold0.setTextFill(holdRed); is0Holding = true; } 
+        else { hold0.setTextFill(transparent); is0Holding = false; }
     }
     public void holdDice1(){
         if(!turnStarted) { return; }
-        if(!is1Holding){
-            hold1.setTextFill(holdRed);
-            is1Holding = true;
-        } else {
-            hold1.setTextFill(transparent);
-            is1Holding = false;
-        }
+        if(!is1Holding ){ hold1.setTextFill(holdRed); is1Holding = true; } 
+        else { hold1.setTextFill(transparent); is1Holding = false; }
     }
     public void holdDice2(){
         if(!turnStarted) { return; }
-        if(!is2Holding){
-            hold2.setTextFill(holdRed);
-            is2Holding = true;
-        } else {
-            hold2.setTextFill(transparent);
-            is2Holding = false;
-        }
+        if(!is2Holding ){ hold2.setTextFill(holdRed); is2Holding = true; } 
+        else { hold2.setTextFill(transparent); is2Holding = false; }
     }
     public void holdDice3(){
         if(!turnStarted) { return; }
-        if(!is3Holding){
-            hold3.setTextFill(holdRed);
-            is3Holding = true;
-        } else {
-            hold3.setTextFill(transparent);
-            is3Holding = false;
-        }
+        if(!is3Holding ){ hold3.setTextFill(holdRed); is3Holding = true; } 
+        else { hold3.setTextFill(transparent); is3Holding = false; }
     }
     public void holdDice4(){
         if(!turnStarted) { return; }
-        if(!is4Holding){
-            hold4.setTextFill(holdRed);
-            is4Holding = true;
-        } else {
-            hold4.setTextFill(transparent);
-            is4Holding = false;
-        }
-        
+        if(!is4Holding ){ hold4.setTextFill(holdRed); is4Holding = true; } 
+        else { hold4.setTextFill(transparent); is4Holding = false; }
     }
 
     public void nextTurn(){
         rollDiceButton.setText("Roll!\n3 Rolls left");
-        canRollDice = true;
-        rollCount = 0;
+        canRollDice = true; rollCount = 0;
         if(is0Holding){ holdDice0(); }
         if(is1Holding){ holdDice1(); }
         if(is2Holding){ holdDice2(); }
         if(is3Holding){ holdDice3(); }
         if(is4Holding){ holdDice4(); }
         turnStarted = false;
-        calcUpperScore();
-        calcLowerScore();
+        calcUpperScore(); calcLowerScore();
         yahtzeeBonusScore.setFont(Font.font("System", FontWeight.BOLD, 20));
         yahtzeeBonusScore.setText(yahtzeeBonusCount > 0 ? "" + 100 * yahtzeeBonusCount : "");
         calcGrandScore();
