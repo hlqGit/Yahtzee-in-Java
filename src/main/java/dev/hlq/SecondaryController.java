@@ -34,4 +34,15 @@ public class SecondaryController {
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+    @FXML public void resolution3Pressed(InputEvent e) throws IOException{
+        Stage mainStage = new Stage();
+        scene = new Scene(App.loadFXML("Smaller"));
+        mainStage.setScene(scene);
+        mainStage.show();
+        mainStage.setResizable(false);
+
+        final Node source = (Node) e.getSource();
+        final Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
 }

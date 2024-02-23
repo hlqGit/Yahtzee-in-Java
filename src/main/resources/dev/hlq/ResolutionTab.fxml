@@ -12,32 +12,47 @@
             <Font name="SansSerif Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="44.0" layoutY="141.0" text="600x900">
+      <Label layoutX="18.0" layoutY="141.0" text="400x550">
          <font>
             <Font name="SansSerif Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="248.0" layoutY="141.0" text="800x1200">
+      <Label layoutX="274.0" layoutY="141.0" text="800x1200">
          <font>
             <Font name="SansSerif Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="69.0" layoutY="124.0" text="Normal">
+      <Label layoutX="42.0" layoutY="124.0" text="Smaller">
          <font>
             <Font name="SansSerif Regular" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="280.0" layoutY="124.0" text="Larger">
+      <Label layoutX="306.0" layoutY="124.0" text="Larger">
          <font>
             <Font name="SansSerif Regular" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="resolution1" layoutX="40.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#resolution1Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
+      <Button layoutX="14.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#resolution3Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
          <font>
             <Font name="SansSerif Bold Italic" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="resolution2" layoutX="251.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#resolution2Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
+      <Button layoutX="277.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#resolution2Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
+         <font>
+            <Font name="SansSerif Bold Italic" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="152.0" layoutY="141.0" text="600x900">
+         <font>
+            <Font name="SansSerif Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="177.0" layoutY="124.0" text="Normal">
+         <font>
+            <Font name="SansSerif Regular" size="15.0" />
+         </font>
+      </Label>
+      <Button layoutX="148.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#resolution1Pressed" prefHeight="50.0" prefWidth="106.0" text="Select">
          <font>
             <Font name="SansSerif Bold Italic" size="16.0" />
          </font>
