@@ -2,13 +2,17 @@ package dev.hlq;
 
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.InputEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -54,6 +58,14 @@ public class Controller {
     final Color black = new Color(0.0, 0.0, 0.0, 1.0);
 
     Random random = new Random();
+
+    public void showHelp() throws IOException{
+        Stage mainStage = new Stage();
+        Scene newScene = new Scene(App.loadFXML("Instructions"));
+        mainStage.setScene(newScene);
+        mainStage.show();
+        mainStage.setResizable(false);
+    }
 
     public void holdDice0(){
         if(!turnStarted) { return; }
