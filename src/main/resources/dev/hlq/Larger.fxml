@@ -645,5 +645,15 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
+      <Label layoutX="337.0" layoutY="822.0" text="Need help? Click this!">
+         <font>
+            <Font name="SansSerif Regular" size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="351.0" layoutY="854.0" mnemonicParsing="false" onMouseClicked="#showHelp" text="Scoring Info">
+         <font>
+            <Font name="SansSerif Regular" size="19.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

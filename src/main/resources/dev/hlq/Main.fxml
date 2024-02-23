@@ -660,7 +660,7 @@
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="infoBoxLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="193.0" prefHeight="243.0" prefWidth="153.0" text="Numbers in italics are scores you can put in your scorecard at any time! If you don't have good options you can scratch as well (choose a 0)." textAlignment="CENTER" wrapText="true">
+                  <Label fx:id="infoBoxLabel" alignment="CENTER" contentDisplay="TOP" layoutX="17.0" layoutY="193.0" prefHeight="243.0" prefWidth="153.0" text="Numbers in italics are scores you can put in your scorecard at any time! If you don't have good options you can scratch as well (choose a 0)." textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="SansSerif Italic" size="16.0" />
                      </font>
@@ -677,6 +677,16 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
+                  <Button layoutX="37.0" layoutY="276.0" mnemonicParsing="false" onMouseClicked="#showHelp" text="Scoring Info">
+                     <font>
+                        <Font name="SansSerif Regular" size="17.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="20.0" layoutY="248.0" text="Need Help? Click this!">
+                     <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <Label fx:id="informationLabel1" alignment="CENTER" text="LOWER SECTION" GridPane.rowIndex="1">
