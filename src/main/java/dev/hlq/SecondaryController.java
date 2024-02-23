@@ -14,7 +14,7 @@ public class SecondaryController {
 
     @FXML public void resolution1Pressed(InputEvent e) throws IOException{
         Stage mainStage = new Stage();
-        scene = new Scene(App.loadFXML("Main"));
+        scene = new Scene(App.loadFXML("Normal"));
         mainStage.setScene(scene);
         mainStage.show();
         mainStage.setResizable(false);
